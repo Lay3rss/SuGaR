@@ -151,14 +151,7 @@ Start by cloning this repository:
 
 ```shell
 # HTTPS
-git clone https://github.com/Anttwo/SuGaR.git --recursive
-```
-
-or
-
-```shell
-# SSH
-git clone git@github.com:Anttwo/SuGaR.git --recursive
+git clone https://github.com/Lay3rss/SuGaR.git --recursive
 ```
 
 ### 2. Install the required Python packages
@@ -203,6 +196,13 @@ cd ../../../
 ```
 Please refer to the <a href="https://github.com/graphdeco-inria/gaussian-splatting">3D Gaussian Splatting repository</a> for more details.
 
+### 4. Export CUDA variables if in WSL
+
+```shell
+export LD_LIBRARY_PATH="/usr/local/cuda-11.8/lib64:$LD_LIBRARY_PATH"
+export PATH=/usr/local/cuda-11.8/bin:$PATH
+export CUDA_HOME=/usr/local/cuda-11.8
+```
 
 ## Quick Start
 
