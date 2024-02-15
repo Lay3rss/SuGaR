@@ -209,14 +209,24 @@ export CUDA_HOME=/usr/local/cuda-11.8
 Start by optimizing a vanilla Gaussian Splatting model for 7k iterations by running the script `gaussian_splatting/train.py`, as shown below. Please refer to the original <a href="https://github.com/graphdeco-inria/gaussian-splatting">3D Gaussian Splatting repository</a> for more details. This optimization should be very fast, and last only a few minutes.
 
 ```shell
+python gaussian_splatting/convert.py -s <path to dataset>
+```
+
+for example: `python gaussian_splatting/convert.py -s data/lego/`
+
+```shell
 python gaussian_splatting/train.py -s <path to COLMAP dataset> --iterations 7000 -m <path to the desired output directory>
 ```
+
+for example: `python gaussian_splatting/train.py -s data/lego/ --iterations 7000 -m outputs_GS/lego`
 
 Then, run the script `train.py` in the root directory to optimize a SuGaR model.
 
 ```shell
 python train.py -s <path to COLMAP dataset> -c <path to the Gaussian Splatting checkpoint> -r <"density" or "sdf">
 ```
+
+for example: `python train.py -s data/lego/ -c outputs_GS/lego/ -r "sdf"`
 
 The most important arguments for the `train.py` script are the following:
 | Parameter | Type | Description |
