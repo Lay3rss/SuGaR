@@ -38,7 +38,7 @@ def extract_mesh_from_coarse_sugar(args):
 
     # Mesh computation parameters
     fg_bbox_factor = 1.  # 1.
-    bg_bbox_factor = 4.  # 4.
+    bg_bbox_factor = 1.  # 4.
     poisson_depth = 10  # 10
     decimate_mesh = True
     clean_mesh = True
