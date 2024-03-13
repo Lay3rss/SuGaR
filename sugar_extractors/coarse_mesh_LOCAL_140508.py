@@ -38,11 +38,8 @@ def extract_mesh_from_coarse_sugar(args):
 
     # Mesh computation parameters
     fg_bbox_factor = 1.  # 1.
-#<<<<<<< HEAD
     bg_bbox_factor = 1.  # 4.
-    poisson_depth = args.poisson_depth  # 10 for most real scenes. 6 or 7 work well for most synthetic scenes #########
-    vertices_density_quantile = args.vertices_density_quantile  # 0.1 for most real scenes. 0. works well for most  synthetic scenes #########
-#>>>>>>> 6fe1e0bcfbf9f934e79305e6dacd589a944c5fe3
+    poisson_depth = 10  # 10
     decimate_mesh = True
     clean_mesh = True
     
@@ -391,10 +388,9 @@ def extract_mesh_from_coarse_sugar(args):
                     o3d_fg_mesh, o3d_fg_densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
                         fg_pcd, depth=poisson_depth) #, width=0, scale=1.1, linear_fit=False)  # depth=10 should be the default value? 11 is good to (but it starts to make a big number of triangles)
 
-                    if vertices_density_quantile > 0.:
-                        CONSOLE.print("Removing vertices with low densities...")
-                        vertices_to_remove = o3d_fg_densities < np.quantile(o3d_fg_densities, vertices_density_quantile)
-                        o3d_fg_mesh.remove_vertices_by_mask(vertices_to_remove)
+                    CONSOLE.print("Removing vertices with low densities...")
+                    vertices_to_remove = o3d_fg_densities < np.quantile(o3d_fg_densities, 0.1)
+                    o3d_fg_mesh.remove_vertices_by_mask(vertices_to_remove)
                 else:
                     CONSOLE.print("\n[WARNING] Foreground is empty.")
                     o3d_fg_mesh = None
@@ -419,10 +415,9 @@ def extract_mesh_from_coarse_sugar(args):
                     o3d_bg_mesh, o3d_bg_densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
                         bg_pcd, depth=poisson_depth) #, width=0, scale=1.1, linear_fit=False)  # depth=10 should be the default value? 11 is good to (but it starts to make a big number of triangles)
 
-                    if vertices_density_quantile > 0.:
-                        CONSOLE.print("Removing vertices with low densities...")
-                        vertices_to_remove = o3d_bg_densities < np.quantile(o3d_bg_densities, vertices_density_quantile)
-                        o3d_bg_mesh.remove_vertices_by_mask(vertices_to_remove)
+                    CONSOLE.print("Removing vertices with low densities...")    
+                    vertices_to_remove = o3d_bg_densities < np.quantile(o3d_bg_densities, 0.1)
+                    o3d_bg_mesh.remove_vertices_by_mask(vertices_to_remove)
                 else:
                     CONSOLE.print("\n[WARNING] Background is empty.")
                     o3d_bg_mesh = None
@@ -543,10 +538,9 @@ def extract_mesh_from_coarse_sugar(args):
                 o3d_fg_mesh, o3d_fg_densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
                     fg_pcd, depth=poisson_depth) #, width=0, scale=1.1, linear_fit=False)  # depth=10 should be the default value? 11 is good to (but it starts to make a big number of triangles)
 
-                if vertices_density_quantile > 0.:
-                    CONSOLE.print("Removing vertices with low densities...")
-                    vertices_to_remove = o3d_fg_densities < np.quantile(o3d_fg_densities, vertices_density_quantile)
-                    o3d_fg_mesh.remove_vertices_by_mask(vertices_to_remove)
+                CONSOLE.print("Removing vertices with low densities...")
+                vertices_to_remove = o3d_fg_densities < np.quantile(o3d_fg_densities, 0.1)
+                o3d_fg_mesh.remove_vertices_by_mask(vertices_to_remove)
                 
                 # ---Compute background mesh---
                 if bg_points.shape[0] > 0:
@@ -568,10 +562,9 @@ def extract_mesh_from_coarse_sugar(args):
                     o3d_bg_mesh, o3d_bg_densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(
                         bg_pcd, depth=poisson_depth) #, width=0, scale=1.1, linear_fit=False)  # depth=10 should be the default value? 11 is good to (but it starts to make a big number of triangles)
 
-                    if vertices_density_quantile > 0.:
-                        CONSOLE.print("Removing vertices with low densities...")    
-                        vertices_to_remove = o3d_bg_densities < np.quantile(o3d_bg_densities, vertices_density_quantile)
-                        o3d_bg_mesh.remove_vertices_by_mask(vertices_to_remove)
+                    CONSOLE.print("Removing vertices with low densities...")    
+                    vertices_to_remove = o3d_bg_densities < np.quantile(o3d_bg_densities, 0.1)
+                    o3d_bg_mesh.remove_vertices_by_mask(vertices_to_remove)
                 else:
                     o3d_bg_mesh = None
                 

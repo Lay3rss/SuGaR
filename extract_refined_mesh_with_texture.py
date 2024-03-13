@@ -38,6 +38,11 @@ if __name__ == "__main__":
                         help='Threshold to use for postprocessing the mesh.')  # --OK
     parser.add_argument('--postprocess_iterations', type=int, default=5,
                         help='Number of iterations to use for postprocessing the mesh.')  # --OK
+    parser.add_argument('--experiment_name',
+                        type=str, 
+                        help='(Required) experiment name.')  ###########
+    parser.add_argument('--normal_consistency_factor', type=float, default=0.1, 
+                        help='Number of refinement iterations.') #############
     
     args = parser.parse_args()
     

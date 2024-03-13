@@ -38,11 +38,14 @@ def extract_mesh_from_coarse_sugar(args):
 
     # Mesh computation parameters
     fg_bbox_factor = 1.  # 1.
-#<<<<<<< HEAD
+<<<<<<< HEAD
     bg_bbox_factor = 1.  # 4.
-    poisson_depth = args.poisson_depth  # 10 for most real scenes. 6 or 7 work well for most synthetic scenes #########
-    vertices_density_quantile = args.vertices_density_quantile  # 0.1 for most real scenes. 0. works well for most  synthetic scenes #########
-#>>>>>>> 6fe1e0bcfbf9f934e79305e6dacd589a944c5fe3
+    poisson_depth = 10  # 10
+=======
+    bg_bbox_factor = 4.  # 4.
+    poisson_depth = 10  # 10 for most real scenes. 6 or 7 work well for most synthetic scenes
+    vertices_density_quantile = 0.1  # 0.1 for most real scenes. 0. works well for most synthetic scenes
+>>>>>>> 6fe1e0bcfbf9f934e79305e6dacd589a944c5fe3
     decimate_mesh = True
     clean_mesh = True
     

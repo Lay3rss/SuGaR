@@ -41,7 +41,10 @@ if __name__ == "__main__":
     
     parser.add_argument('--export_ply', type=str2bool, default=True, 
                         help='If True, export a ply files with the refined 3D Gaussians at the end of the training.')
-
+    parser.add_argument('--experiment_name',
+                        type=str, 
+                        help='(Required) experiment name.')  ###########
+    
     args = parser.parse_args()
     
     # Call function

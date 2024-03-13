@@ -20,7 +20,10 @@ if __name__ == "__main__":
     # Data and vanilla 3DGS checkpoint
     parser.add_argument('-s', '--scene_path',
                         type=str, 
-                        help='(Required) path to the scene data to use.')  
+                        help='(Required) path to the scene data to use.')
+    parser.add_argument('--experiment_name',
+                        type=str, 
+                        help='(Required) experiment name.')  ###########
     parser.add_argument('-c', '--checkpoint_path',
                         type=str, 
                         help='(Required) path to the vanilla 3D Gaussian Splatting Checkpoint to load.')
@@ -45,12 +48,19 @@ if __name__ == "__main__":
                         help='Max coordinates to use for foreground.')
     parser.add_argument('--center_bbox', type=str2bool, default=True, 
                         help='If True, center the bbox. Default is False.')
+    parser.add_argument('--vertices_density_quantile', type=float, default=0.1, 
+                    help='0.1 for most real scenes. 0. works well for most synthetic scenes') ##########
+    parser.add_argument('--poisson_depth', type=int, default=10, 
+                    help='10 for most real scenes. 6 or 7 work well for most synthetic scenes') ##########
+    
     
     # Parameters for refined SuGaR
     parser.add_argument('-g', '--gaussians_per_triangle', type=int, default=1, 
                         help='Number of gaussians per triangle.')
     parser.add_argument('-f', '--refinement_iterations', type=int, default=15_000, 
                         help='Number of refinement iterations.')
+    parser.add_argument('-n', '--normal_consistency_factor', type=float, default=0.1, 
+                        help='Factor to multiply the normal consistency loss by.')   #############
     
     # (Optional) Parameters for textured mesh extraction
     parser.add_argument('-t', '--export_uv_textured_mesh', type=str2bool, default=True, 
@@ -117,7 +127,7 @@ if __name__ == "__main__":
         'iteration_to_load': args.iteration_to_load,
         'output_dir': None,
         'eval': args.eval,
-        'estimation_factor': 0.2,
+        'estimation_factor': 0.5,
         'normal_factor': 0.2,
         'gpu': args.gpu,
     })
@@ -133,6 +143,7 @@ if __name__ == "__main__":
     coarse_mesh_args = AttrDict({
         'scene_path': args.scene_path,
         'checkpoint_path': args.checkpoint_path,
+        'experiment_name': args.experiment_name, ########
         'iteration_to_load': args.iteration_to_load,
         'coarse_model_path': coarse_sugar_path,
         'surface_level': args.surface_level,
@@ -146,6 +157,8 @@ if __name__ == "__main__":
         'use_centers_to_extract_mesh': False,
         'use_marching_cubes': False,
         'use_vanilla_3dgs': False,
+        'vertices_density_quantile': args.vertices_density_quantile, #######
+        'poisson_depth':args.poisson_depth, #######
     })
     coarse_mesh_path = extract_mesh_from_coarse_sugar(coarse_mesh_args)[0]
     
@@ -154,10 +167,11 @@ if __name__ == "__main__":
     refined_args = AttrDict({
         'scene_path': args.scene_path,
         'checkpoint_path': args.checkpoint_path,
+        'experiment_name': args.experiment_name, ########
         'mesh_path': coarse_mesh_path,      
         'output_dir': None,
         'iteration_to_load': args.iteration_to_load,
-        'normal_consistency_factor': 0.1,    
+        'normal_consistency_factor': args.normal_consistency_factor, # 0.1, ############    
         'gaussians_per_triangle': args.gaussians_per_triangle,        
         'n_vertices_in_fg': args.n_vertices_in_mesh,
         'refinement_iterations': args.refinement_iterations,
@@ -176,6 +190,7 @@ if __name__ == "__main__":
             'scene_path': args.scene_path,
             'iteration_to_load': args.iteration_to_load,
             'checkpoint_path': args.checkpoint_path,
+            'experiment_name': args.experiment_name, ########
             'refined_model_path': refined_sugar_path,
             'mesh_output_dir': None,
             'n_gaussians_per_surface_triangle': args.gaussians_per_triangle,
