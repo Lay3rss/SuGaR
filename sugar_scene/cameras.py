@@ -107,7 +107,7 @@ def load_gs_cameras(source_path, gs_output_path, image_resolution=1,
 class GSCamera(torch.nn.Module):
     """Class to store Gaussian Splatting camera parameters.
     """
-    def __init__(self, colmap_id, R, T, FoVx, FoVy, image, gt_alpha_mask,
+    def __init__(self, colmap_id, R, T, FoVx, FoVy, image, mask, gt_alpha_mask,
                  image_name, uid,
                  trans=np.array([0.0, 0.0, 0.0]), scale=1.0, data_device = "cuda",
                  image_height=None, image_width=None,
@@ -159,6 +159,11 @@ class GSCamera(torch.nn.Module):
             self.original_image = image.clamp(0.0, 1.0).to(self.data_device)
             self.image_width = self.original_image.shape[2]
             self.image_height = self.original_image.shape[1]
+
+            self.raw_mask = mask
+            self.is_masked = None
+            if mask is not None:
+            self.is_masked = (mask == 0).expand(*image.shape)  # True represent masked pixel
 
             if gt_alpha_mask is not None:
                 self.original_image *= gt_alpha_mask.to(self.data_device)
