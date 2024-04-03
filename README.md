@@ -1,3 +1,5 @@
+Forked repo of:
+
 <div align="center">
 
 # SuGaR: Surface-Aligned Gaussian Splatting for Efficient 3D Mesh Reconstruction and High-Quality Mesh Rendering
