@@ -124,6 +124,7 @@ if __name__ == "__main__":
     coarse_args = AttrDict({
         'checkpoint_path': args.checkpoint_path,
         'scene_path': args.scene_path,
+        'experiment_name': args.experiment_name, ########
         'iteration_to_load': args.iteration_to_load,
         'output_dir': None,
         'eval': args.eval,

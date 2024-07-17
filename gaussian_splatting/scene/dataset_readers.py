@@ -94,8 +94,14 @@ def readColmapCameras(cam_extrinsics, cam_intrinsics, images_folder):
             focal_length_y = intr.params[1]
             FovY = focal2fov(focal_length_y, height)
             FovX = focal2fov(focal_length_x, width)
+        #print('###################', focal_length_x, focal_length_y, FovX , FovY)
         else:
-            assert False, "Colmap camera model not handled: only undistorted datasets (PINHOLE or SIMPLE_PINHOLE cameras) supported!"
+            # allows PPR poses to be loaded, although not PINHOLE 
+            focal_length_x = intr.params[0]
+            focal_length_y = intr.params[1]
+            FovY = focal2fov(focal_length_y, height)
+            FovX = focal2fov(focal_length_x, width)
+            #assert False, "Colmap camera model not handled: only undistorted datasets (PINHOLE or SIMPLE_PINHOLE cameras) supported!"
         # print("IMAGES_FOLDER", images_folder) #######
         # print("os.path.basename(extr.name)", os.path.basename(extr.name)) ########
         image_path = os.path.join(images_folder, os.path.basename(extr.name))
@@ -163,15 +169,20 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
 
     ply_path = os.path.join(path, "sparse/0/points3D.ply")
     bin_path = os.path.join(path, "sparse/0/points3D.bin")
+    #print("####################", ply_path) 
+    #print("####################", os.path.exists(ply_path))
     txt_path = os.path.join(path, "sparse/0/points3D.txt")
     if not os.path.exists(ply_path):
         print("Converting point3d.bin to .ply, will happen only the first time you open the scene.")
         try:
             xyz, rgb, _ = read_points3D_binary(bin_path)
+            #print("####################", xyz, rgb) 
         except:
             xyz, rgb, _ = read_points3D_text(txt_path)
         storePly(ply_path, xyz, rgb)
+    #else:
     try:
+        print("####################", "reading pcd")
         pcd = fetchPly(ply_path)
     except:
         pcd = None

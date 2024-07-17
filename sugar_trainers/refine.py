@@ -230,9 +230,9 @@ def refined_training(args):
 
     if args.output_dir is None:
         if len(args.scene_path.split("/")[-1]) > 0:
-            args.output_dir = os.path.join("./output/refined", args.scene_path.split("/")[-1])
+            args.output_dir = os.path.join("./output/refined", args.experiment_name) #############
         else:
-            args.output_dir = os.path.join("./output/refined", args.scene_path.split("/")[-2])
+            args.output_dir = os.path.join("./output/refined", args.experiment_name) #############
             
     # Bounding box
     if args.bboxmin is None:

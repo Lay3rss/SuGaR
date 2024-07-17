@@ -7,6 +7,11 @@ output*
 *.obj
 sugar_tests.ipynb
 sugar_sh_tests.ipynb
+gaussian_platting/output*
+*.MP4
+*.mp4
+3DGS_vanilla_mesh_by_Sugar
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

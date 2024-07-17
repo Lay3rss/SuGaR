@@ -23,7 +23,7 @@ def extract_mesh_from_coarse_sugar(args):
 
     # Surface level extraction parameters
     n_total_points = 10_000_000
-    use_gaussian_depth_for_surface_levels = False  # False until now
+    use_gaussian_depth_for_surface_levels = True #False  # False until now
     surface_level_triangle_scale = 2.  # 2.
     # surface_level_triangle_scale = -2 * np.log(surface_level)
     surface_level_primitive_types = 'diamond'  # 'diamond'
@@ -39,12 +39,13 @@ def extract_mesh_from_coarse_sugar(args):
     # Mesh computation parameters
     fg_bbox_factor = 1.  # 1.
 #<<<<<<< HEAD
-    bg_bbox_factor = 1.  # 4.
+    bg_bbox_factor = 4. #1. rebecca  # 4. default 
     poisson_depth = args.poisson_depth  # 10 for most real scenes. 6 or 7 work well for most synthetic scenes #########
     vertices_density_quantile = args.vertices_density_quantile  # 0.1 for most real scenes. 0. works well for most  synthetic scenes #########
 #>>>>>>> 6fe1e0bcfbf9f934e79305e6dacd589a944c5fe3
+    ############mine
     decimate_mesh = True
-    clean_mesh = True
+    clean_mesh = False #True default 
     
     # Vanilla 3DGS data
     source_path = args.scene_path
@@ -70,9 +71,9 @@ def extract_mesh_from_coarse_sugar(args):
     # Mesh output dir
     if args.mesh_output_dir is None:
         if len(args.scene_path.split("/")[-1]) > 0:
-            args.mesh_output_dir = os.path.join("./output/coarse_mesh", args.scene_path.split("/")[-1])
+            args.mesh_output_dir = os.path.join("./output/coarse_mesh", args.experiment_name) #############
         else:
-            args.mesh_output_dir = os.path.join("./output/coarse_mesh", args.scene_path.split("/")[-2])
+            args.mesh_output_dir = os.path.join("./output/coarse_mesh", args.experiment_name) #############
     mesh_output_dir = args.mesh_output_dir
     os.makedirs(mesh_output_dir, exist_ok=True)
             
