@@ -19,11 +19,11 @@ def extract_mesh_from_coarse_sugar(args):
 
     use_train_test_split = True
     n_skip_images_for_eval_split = 8
-    low_opacity_gaussian_pruning_threshold = 0.5
+    low_opacity_gaussian_pruning_threshold = 0.2 # 0.5 ##########mine
 
     # Surface level extraction parameters
     n_total_points = 10_000_000
-    use_gaussian_depth_for_surface_levels = True #False  # False until now
+    use_gaussian_depth_for_surface_levels = False #False  # False until now
     surface_level_triangle_scale = 2.  # 2.
     # surface_level_triangle_scale = -2 * np.log(surface_level)
     surface_level_primitive_types = 'diamond'  # 'diamond'
@@ -45,7 +45,7 @@ def extract_mesh_from_coarse_sugar(args):
 #>>>>>>> 6fe1e0bcfbf9f934e79305e6dacd589a944c5fe3
     ############mine
     decimate_mesh = True
-    clean_mesh = False #True default 
+    clean_mesh = True #True default 
     
     # Vanilla 3DGS data
     source_path = args.scene_path
@@ -58,7 +58,7 @@ def extract_mesh_from_coarse_sugar(args):
             
     # Surface levels to extract
     if args.surface_level is None:
-        surface_levels = [0.1, 0.3, 0.5]
+        surface_levels = [-0.3, 0.1, 0.3, 0.5] ######mine added -0.3
     else:
         surface_levels = [args.surface_level]
         

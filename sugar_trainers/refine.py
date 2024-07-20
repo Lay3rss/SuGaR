@@ -28,12 +28,12 @@ def refined_training(args):
     # -----Model parameters-----
     use_eval_split = True
     n_skip_images_for_eval_split = 8
-
+######mine
     freeze_gaussians = False
     initialize_from_trained_3dgs = False  # True or False
     if initialize_from_trained_3dgs:
         prune_at_start = False
-        start_pruning_threshold = 0.5
+        start_pruning_threshold = 0.2 # 0.5
     no_rendering = freeze_gaussians
 
     n_points_at_start = None  # If None, takes all points in the SfM point cloud
@@ -52,27 +52,27 @@ def refined_training(args):
 
         
     # -----Optimization parameters-----
-
+##########mine
     # Learning rates and scheduling
-    num_iterations = 15_000  # Changed
+    num_iterations = 20_000  # Changed by RC to 15_000 
 
     spatial_lr_scale = None
-    position_lr_init=0.00016
-    position_lr_final=0.0000016
-    position_lr_delay_mult=0.01
-    position_lr_max_steps=30_000
+    position_lr_init= 0.000016 # 0.00016
+    position_lr_final= 0.00000016 # 0.0000016
+    position_lr_delay_mult= 0.01
+    position_lr_max_steps= 50_000 #30_000
     feature_lr=0.0025
     opacity_lr=0.05
     scaling_lr=0.005
     rotation_lr=0.001
-        
+#######mine        
     # Densifier and pruning
     use_densifier = True
     if use_densifier:
         heavy_densification = False
         if initialize_from_trained_3dgs:
-            densify_from_iter = 500 + 99999 # 500  # Maybe reduce this, since we have a better initialization?
-            densify_until_iter = 7000 - 7000 # 7000
+            densify_from_iter =  5_000 # 500 + 99999 # 500  # Maybe reduce this, since we have a better initialization?
+            densify_until_iter =  7000 # num_iterations - 10 # 7000 - 7000 # 7000
         else:
             densify_from_iter = 500 # 500  # Maybe reduce this, since we have a better initialization?
             densify_until_iter = 7000 # 7000
@@ -152,8 +152,8 @@ def refined_training(args):
         n_samples_for_sdf_regularization = 1_000_000  # 300_000
         sdf_sampling_scale_factor = 1.5
         sdf_sampling_proportional_to_volume = False
-        
-    bind_to_surface_mesh = True
+##########mine        
+    bind_to_surface_mesh =  True # False # True originally
     if bind_to_surface_mesh:
         learn_surface_mesh_positions = True
         learn_surface_mesh_opacity = True
@@ -220,10 +220,10 @@ def refined_training(args):
     else:
         current_sh_levels = sh_levels
         
-
+######mine
     # -----Log and save-----
     print_loss_every_n_iterations = 50
-    save_model_every_n_iterations = 1_000_000 # 500, 1_000_000  # TODO
+    save_model_every_n_iterations = 5_000 # 1_000_000 # 500, 1_000_000  # TODO
     save_milestones = [2000, 7_000, 15_000]
 
     # ====================End of parameters====================
